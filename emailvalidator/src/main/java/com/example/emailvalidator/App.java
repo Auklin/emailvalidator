@@ -24,19 +24,55 @@ public class App
         
     }
     public static Boolean validator (String email){
-    	Boolean check = true;
     	if (!email.contains("@")){
-    		check = false;
-        	System.out.println("Email does not contain '@'");
+    		System.out.println("Email does not contain '@'");
+    		return false;
     	}
     	if (!email.contains(".")){
-    		check = false;
-        	System.out.println("Email does not contain '.'");
+    		System.out.println("Email does not contain '.'");
+    		return false;
     	}
+    	if(!atCheck(email))
+    		return false;
     	
+    	String domain = getDomain(email);
+    	
+    	if (!domainValidator(domain)){
+    		return false;
+    	}
     		
-    	return check;
+    		
+    	return true;
+    }
+    private static Boolean atCheck(String email){
+    	if (atCheckRec(email)>1){
+    		System.err.println("more than one @ symbol detected");
+    		return false;
+    	}
+    	return true;
+    }
+    private static int atCheckRec (String s){
+    	if (s.contains("@"))
+    		return 1+atCheckRec(s.substring(s.indexOf('@')+1, s.length()));
+    	return 0;
     }
     
+    private static String getDomain(String email) {
+    	String domain=email.substring(email.indexOf('@')+1, email.length());
+		System.out.println("Domain?: "+domain);
+    	return domain;
+	}
+	public static Boolean domainValidator(String domain){
+    	InetAddress hostAddress;
+        try  {
+        	hostAddress = InetAddress.getByName(domain);
+            System.out.println (hostAddress.getHostAddress());
+            return true;
+        }
+        catch (UnknownHostException e)  {
+            System.err.println("Unknown host: " );
+            return false;
+        }
+    }
     
 }

@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 public class App 
 {
     private static Scanner kbd;
+    
 	public static void main( String[] args ) {
     	kbd = new Scanner(System.in);
         System.out.println( "Enter an email address:" );
@@ -86,7 +87,7 @@ public class App
             return true;
         }
         catch (UnknownHostException e)  {
-            System.err.println("Unknown host: " );
+            System.err.println("Unknown host" );
             return false;
         }
     }

@@ -32,11 +32,16 @@ public class App
     		System.out.println("Email does not contain '.'");
     		return false;
     	}
+    	//checks to ensure there is only 1 at symbol
     	if(!atCheck(email))
     		return false;
     	
-    	String domain = getDomain(email);
+    	//Stg2. 1) Ensures characters exist before @ symbol
+    	if (!nameCheck(email))
+    		return false;
     	
+    	//Stg2. 2) ensures domain exists
+    	String domain = getDomain(email);
     	if (!domainValidator(domain)){
     		return false;
     	}
@@ -44,7 +49,18 @@ public class App
     		
     	return true;
     }
-    private static Boolean atCheck(String email){
+    private static boolean nameCheck(String email) {
+    	String preAt = email.substring(0,email.indexOf('@'));
+    	
+    	//ensure characters exists before @ symbol
+    	if (preAt.length()==0)
+    		return false;
+    	
+    	//I would put more checks here if needed, I realize I could just check to ensure the first character isn't an '@'
+    	
+		return true;
+	}
+	private static Boolean atCheck(String email){
     	if (atCheckRec(email)>1){
     		System.err.println("more than one @ symbol detected");
     		return false;
